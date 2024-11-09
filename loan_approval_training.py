@@ -57,10 +57,9 @@ preprocessor = ColumnTransformer(
         ('cat', OneHotEncoder(handle_unknown='ignore', sparse_output=False), categorical_columns)
     ],
     remainder='passthrough',
-    force_int_remainder_cols=False  # Opt-in to new behavior to avoid warning
+    force_int_remainder_cols=False  
 )
 
-# Define the pipeline with the preprocessor and classifier
 rf_pipe = Pipeline([
     ('preprocessor', preprocessor),
     ('rf', RandomForestClassifier(random_state=42))
@@ -76,10 +75,8 @@ custom_score = make_scorer(custom_score_func)
 
 
 param_grid = {
-    # Trying out several different class weight dictionaries
-    'rf__class_weight': ['balanced'] + [{0:1, 1:w} for w in range(1, 20)] #20 options
+    'rf__class_weight': ['balanced'] + [{0:1, 1:w} for w in range(1, 20)] 
 }                                                                                       
-# Performing grid search to identify optimal hyperparameter combination
 rf_search = GridSearchCV(rf_pipe,
                          param_grid,
                          cv=5,                                           
